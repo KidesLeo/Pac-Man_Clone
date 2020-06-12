@@ -1,0 +1,7 @@
+extends Node
+
+enum ENTITY_TYPES {PLAYER, GHOST}
+enum ENVIR_TYPES {PILL = -3, B_PILL, WALL}
+
+var PAC_START_POS = Vector2(280, 460)
+var GHOST_START_POS
