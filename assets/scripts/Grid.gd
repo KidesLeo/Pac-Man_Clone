@@ -22,7 +22,7 @@ func _ready():
 		for _y in range(grid_size.y):
 			grid[x].append(null)
 	
-	#Map grid according to lookup
+	#Map grid according to lookups
 	initialize_lookup(lookup)
 	pass # Replace with function body.
 
