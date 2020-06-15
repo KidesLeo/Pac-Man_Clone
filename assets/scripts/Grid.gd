@@ -7,6 +7,7 @@ var tile_size = get_cell_size()
 var half_tile_size:Vector2 =  Vector2(10,10)
 var current = Vector2(-1, 0)
 var prev = Vector2(-1, 0)
+var modif = Vector2()
 
 var grid_size = Vector2(28,36)
 var grid = []
@@ -49,23 +50,23 @@ func calculate_next_position(child):
 			
 			target_pos = pos + direction
 			
-			if (grid[world_to_map(target_pos+GLOBALS.LEFT*(marg-4)).x][world_to_map(target_pos).y] == GLOBALS.ENVIR_TYPES.WALL 
-			&& direction == GLOBALS.LEFT):
+			if direction == GLOBALS.LEFT:
+				if (grid[world_to_map(target_pos+GLOBALS.LEFT*(marg-4)).x][world_to_map(target_pos).y] == GLOBALS.ENVIR_TYPES.WALL):
 					current =  Vector2() if current == prev else prev 
 					target_pos -= direction
 					print("blocked left")
-			if (grid[world_to_map(target_pos+GLOBALS.RIGHT*(marg-5)).x][world_to_map(target_pos).y] == GLOBALS.ENVIR_TYPES.WALL
-				&& direction == GLOBALS.RIGHT):
+			if direction == GLOBALS.RIGHT:
+				if (grid[world_to_map(target_pos+GLOBALS.RIGHT*(marg-5)).x][world_to_map(target_pos).y] == GLOBALS.ENVIR_TYPES.WALL):
 					current =  Vector2() if current == prev else prev 
 					target_pos = pos
 					print("blocked right")
-			if (grid[world_to_map(target_pos).x][world_to_map(target_pos+GLOBALS.UP*(marg+2)).y] == GLOBALS.ENVIR_TYPES.WALL
-				&& direction == GLOBALS.UP):
+			if direction == GLOBALS.UP:
+				if (grid[world_to_map(target_pos).x][world_to_map(target_pos+GLOBALS.UP*(marg+2)).y] == GLOBALS.ENVIR_TYPES.WALL):
 					current = Vector2() if current == prev else prev 
 					target_pos = pos
 					print("blocked right")
-			if (grid[world_to_map(target_pos).x][world_to_map(target_pos+GLOBALS.DOWN*(marg+2)).y] == GLOBALS.ENVIR_TYPES.WALL
-				&& direction == GLOBALS.DOWN):
+			if direction == GLOBALS.DOWN:
+				if (grid[world_to_map(target_pos).x][world_to_map(target_pos+GLOBALS.DOWN*(marg+2)).y] == GLOBALS.ENVIR_TYPES.WALL):
 					current =  Vector2() if current == prev else prev 
 					target_pos = pos
 					print("blocked right")
@@ -75,7 +76,28 @@ func calculate_next_position(child):
 			_old_grid_pos = world_to_map(pos)
 			new_grid_pos = world_to_map(target_pos) + direction
 			
+			print(new_grid_pos)
 			
+			#Teleporation Code Left to Right
+			if new_grid_pos.x == (-3) && new_grid_pos.y == 17:
+				print("change")
+				pac.position = (map_to_world(Vector2(27,17)) + Vector2(20,0) + half_tile_size)
+			
+			#Teleporation Code Right to Left
+			if new_grid_pos.x == (28) && new_grid_pos.y == 17:
+				print("change")
+				if pac.sprite_move((Vector2(580,340) + half_tile_size)):
+					new_grid_pos.x = 1
+				elif pac.sprite_move((Vector2(580,340) + half_tile_size)) != true:
+					pac.sprite_reset()
+					pac.position = (map_to_world(Vector2(-2,17)) + Vector2(10,0) + half_tile_size)
+			
+			
+			#if modif.x == -10:
+			#	modif.x = -20
+			
+			#if modif.x == -20:
+			#	modif.x == 0
 			
 			return map_to_world(new_grid_pos) + half_tile_size
 
